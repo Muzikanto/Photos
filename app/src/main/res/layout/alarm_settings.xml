@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content" android:orientation="vertical" android:theme="@style/AlarmActivity">
+
+    <TextView
+            android:text="@string/alarmFragmentTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/textView4" android:textSize="24sp"
+            android:textAlignment="center" android:textStyle="bold"/>
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:id="@+id/listAlarmSett_timeH" android:layout_weight="1" android:textAlignment="center"
+                android:hint="00" android:inputType="number"/>
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:ems="10"
+                android:id="@+id/listAlarmSett_timeM" android:layout_weight="1" android:textAlignment="center"
+                android:hint="00"/>
+    </LinearLayout>
+    <TextView
+            android:text="@string/alarmSettDaysOfWeek"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/textView" android:textSize="18sp"
+            android:textStyle="bold" android:textAlignment="center"/>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <Button
+                android:text="@string/alarmWeekDay1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/listAlarmSett_M" android:layout_weight="1"/>
+        <Button
+                android:text="@string/alarmWeekDay2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/listAlarmSett_Tu" android:layout_weight="1"/>
+        <Button
+                android:text="@string/alarmWeekDay3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/listAlarmSett_W" android:layout_weight="1"/>
+        <Button
+                android:text="@string/alarmWeekDay4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/listAlarmSett_Th" android:layout_weight="1"/>
+        <Button
+                android:text="@string/alarmWeekDay5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/listAlarmSett_F" android:layout_weight="1"/>
+        <Button
+                android:text="@string/alarmWeekDay6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/listAlarmSett_Sa" android:layout_weight="1"/>
+        <Button
+                android:text="@string/alarmWeekDay7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/listAlarmSett_Su" android:layout_weight="1"/>
+    </LinearLayout>
+    <TextView
+            android:text="@string/alarmDeferTimeText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/textView3" android:textSize="18sp"
+            android:textAlignment="center" android:textStyle="bold"/>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" android:layout_weight="2">
+        <Button
+                android:text="@string/alarmRepeatTime5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/listAlarmSett_Repeat3_5"
+                android:layout_weight="1"/>
+        <Button
+                android:text="@string/alarmRepeatTime10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/listAlarmSett_Repeat2_10"
+                android:layout_weight="1"/>
+        <Button
+                android:text="@string/alarmRepeatTime15"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/listAlarmSett_Repeat1_15"
+                android:layout_weight="1"/>
+    </LinearLayout>
+    <TextView
+            android:text="@string/alarmMusicTextViewTop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/textView2" android:textSize="18sp"
+            android:textAlignment="center" android:textStyle="bold" android:layout_weight="1"/>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" android:layout_weight="4">
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:text="@string/alarmButtonLoadMusic"
+                android:ems="10"
+                android:id="@+id/listAlarmSett_MusicPath" android:textSize="20sp" android:layout_weight="1"/>
+        <Button
+                android:text="@string/textSet"
+                android:layout_width="150dp"
+                android:layout_height="45dp" android:id="@+id/listAlarmSett_MusicSet"
+                android:layout_weight="1"/>
+    </LinearLayout>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" android:layout_weight="4">
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:text="@string/alarmRepeatEveryWeek"
+                android:ems="10"
+                android:id="@+id/listAlarmSett_textViewCheck" android:textSize="20sp" android:layout_weight="1"/>
+        <Switch
+                android:layout_width="150dp"
+                android:layout_height="45dp" android:id="@+id/listAlarmSett_switchRepeatWeek"
+                android:layout_weight="1" android:textAlignment="center"/>
+    </LinearLayout>
+</LinearLayout>

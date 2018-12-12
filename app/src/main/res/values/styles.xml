@@ -1,0 +1,61 @@
+<resources>
+
+    <!-- Base application theme.
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar"/>
+-->
+    <!-- Menu -->
+    <style name="CustomToolBarStyle" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:background">@color/Black</item>
+        <item name="android:textColor">@color/White</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <!-- MenuDropDown item theme -->
+    <style name="CustomPopupStyle" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:background">@color/Black</item>
+        <item name="android:textColor">@color/White</item>
+        <item name="overlapAnchor">false</item>
+        <item name="android:dropDownVerticalOffset">-4dp</item>
+    </style>
+
+    <!-- Main -->
+    <style name="MainActivity">
+        <item name="android:background">@color/Black</item>
+        <item name="android:textColor">@color/White</item>
+        <item name="android:buttonStyle">@style/ButtonFragmentSelect</item>
+    </style>
+
+    <!-- Alarm -->
+    <style name="AlarmActivity">
+        <item name="android:background">@color/Black</item>
+        <item name="android:textColor">@color/White</item>
+        <item name="android:textColorHint">@color/Blue</item>
+    </style>
+
+
+
+    <!-- Blanks -->
+    <style name="Blanks">
+        <item name="android:background">@color/Black</item>
+        <item name="android:textColor">@color/White</item>
+        <item name="android:textColorHint">@color/Blue</item>
+        <item name="android:buttonStyle">@style/ButtonBlanks</item>
+    </style>
+
+
+    <!-- Button -->
+    <style name="ButtonFragmentSelect" parent="Widget.AppCompat.Button">
+        <item name="android:backgroundTint">@color/Black</item>
+        <item name="android:textColor">@color/White</item>
+    </style>
+    <style name="ButtonBlanks" parent="Widget.AppCompat.Button">
+        <item name="android:backgroundTint">@color/Gray</item>
+        <item name="android:textColor">@color/White</item>
+    </style>
+
+
+
+
+
+</resources>
