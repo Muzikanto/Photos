@@ -39,7 +39,6 @@ class WidgetMusic : AppWidgetProvider() {
             val remoteViews = RemoteViews(context.packageName, R.layout.widget_music)
             val save = dbMusicSaves.read()
             if (save.isPlaying == "true") {
-
                 ClassMusic.lastMusic = save.lastMusic
                 ClassMusic.lastMoment = save.lastMoment
                 if (ClassMusic.vec.size > 0) {

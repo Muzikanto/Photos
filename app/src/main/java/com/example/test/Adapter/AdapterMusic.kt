@@ -23,7 +23,10 @@ class AdapterMusic(val context: Context, val data: ArrayList<Sound>) : BaseAdapt
         val textV2 = rawView.findViewById<TextView>(R.id.MusicListView2)
         val textV3 = rawView.findViewById<TextView>(R.id.MusicListView3)
         textV1.setText((position + 1).toString())
-        textV2.setText(data[position].name)
+        var name = data[position].name
+        if(name.length >= 35)
+            name = name.substring(0, 35) + ".."
+        textV2.setText(name)
         textV3.setText(data[position].duration)
         return rawView
     }

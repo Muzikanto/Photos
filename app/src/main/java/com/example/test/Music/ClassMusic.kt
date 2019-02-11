@@ -14,6 +14,7 @@ import android.widget.TextView
 import com.example.test.Adapter.AdapterMusic
 import com.example.test.DataBase.DataBaseMusic
 import com.example.test.DataBase.DataBaseMusicPlayer
+import com.example.test.DataBase.LastSound
 import com.example.test.DataBase.Sound
 import com.example.test.MainActivity
 import kotlin.collections.ArrayList

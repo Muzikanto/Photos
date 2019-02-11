@@ -16,13 +16,11 @@ import android.widget.Toast
 import android.app.Notification
 import android.app.NotificationManager
 import android.support.v4.app.ActivityCompat
+import android.util.Log
 import android.view.*
-import com.example.test.DataBase.DataBaseAlarms
-import com.example.test.DataBase.DataBaseMusic
+import com.example.test.DataBase.*
 import com.example.test.Music.ClassMusic
 import com.example.test.Fragment.StartFragment
-import com.example.test.DataBase.DataBaseMusicPlayer
-import com.example.test.DataBase.ListenSound
 import com.example.test.Fragment.MusicFragment
 import com.example.test.Fragment.AlarmFragment
 import com.example.test.Fragment.Blank3
@@ -36,11 +34,13 @@ class MainActivity : AppCompatActivity() {
         val toolBar = findViewById<Toolbar>(R.id.toolBar)
         setSupportActionBar(toolBar)
         //Fragments
-        supportFragmentManager.beginTransaction().add(R.id.fragPlace, AlarmFragment()).commit()
+        supportFragmentManager.beginTransaction().add(R.id.fragPlace, MusicFragment()).commit()
         findViewById<Button>(R.id.toBlank1).setTextColor(Color.BLUE)
         fragIndexSecond = 0
         //Permissions
         ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), 100)
+
+        AppPreferences.init(this@MainActivity)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -161,7 +161,15 @@ class MainActivity : AppCompatActivity() {
     override fun onStop() {
         super.onStop()
         val dbMusicSaves = DataBaseMusicPlayer(applicationContext)
-        dbMusicSaves.reset(ListenSound(ClassMusic.lastMusic, ClassMusic.lastMoment, ClassMusic.mediaPlayer.isPlaying.toString()))
+        dbMusicSaves.reset(LastSound(ClassMusic.lastMusic, ClassMusic.lastMoment, ClassMusic.mediaPlayer.isPlaying.toString()))
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val dbMusicSaves = DataBaseMusicPlayer(applicationContext)
+        val last = dbMusicSaves.read()
+        ClassMusic.lastMoment = last.lastMoment
+        ClassMusic.lastMusic = last.lastMusic
     }
 }
 

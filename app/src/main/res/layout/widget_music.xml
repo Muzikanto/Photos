@@ -17,9 +17,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
             <TextView
+                    android:gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp" android:id="@+id/musicWidgetText" android:layout_weight="1"
-                    android:textAlignment="center" android:textSize="18sp" android:textColor="@color/White"/>
+                    android:textAlignment="center" android:textSize="18sp" android:textColor="@color/White"
+                    android:text="Music - Music"/>
         </LinearLayout>
         <RelativeLayout
                 android:orientation="horizontal"

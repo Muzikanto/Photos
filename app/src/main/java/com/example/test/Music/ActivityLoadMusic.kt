@@ -102,7 +102,6 @@ class ActivityLoadMusic : AppCompatActivity() {
     }
 
     private fun putArrayToLoad(){
-
             val intent = Intent()
             val secondArr = ArrayList<String>()
             for (v in arrToLoad)
@@ -111,7 +110,6 @@ class ActivityLoadMusic : AppCompatActivity() {
             intent.putExtra("ARRAY_LIST_PATH", secondArr)
             setResult(Activity.RESULT_OK, intent)
             finish()
-
     }
 
     private fun checkFolder(){

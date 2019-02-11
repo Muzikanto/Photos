@@ -22,7 +22,7 @@ class DataBaseMusicPlayer(context: Context) : SQLiteOpenHelper(context, DATABASE
         onCreate(db)
     }
 
-    fun reset(value: ListenSound): Boolean {
+    fun reset(value: LastSound): Boolean {
         dropDataBase()
         val db = writableDatabase
         val values = ContentValues()
@@ -47,18 +47,6 @@ class DataBaseMusicPlayer(context: Context) : SQLiteOpenHelper(context, DATABASE
         db.insert(DBContract.MusicPlayerSettings.TABLE_NAME, null, values)
     }
 
-    fun setMomentMusic(moment: Int) {
-        val db = writableDatabase
-        val values = ContentValues()
-        val value = read()
-        values.put(DBContract.MusicPlayerSettings.COL_ID, 0)
-        values.put(DBContract.MusicPlayerSettings.COL_LAST_MUSIK_ID, value.lastMusic)
-        values.put(DBContract.MusicPlayerSettings.COL_LAST_MOMENT, moment.toString())
-        values.put(DBContract.MusicPlayerSettings.COL_IS_PLAYING, value.isPlaying)
-        dropDataBase()
-        db.insert(DBContract.MusicPlayerSettings.TABLE_NAME, null, values)
-    }
-
     fun setMusicLast(music: Int) {
         val db = writableDatabase
         val values = ContentValues()
@@ -71,8 +59,8 @@ class DataBaseMusicPlayer(context: Context) : SQLiteOpenHelper(context, DATABASE
         db.insert(DBContract.MusicPlayerSettings.TABLE_NAME, null, values)
     }
 
-    fun read(): ListenSound {
-        var sound = ListenSound(ClassMusic.lastMusic, ClassMusic.lastMoment, ClassMusic.mediaPlayer.isPlaying.toString())
+    fun read(): LastSound {
+        var sound = LastSound(ClassMusic.lastMusic, ClassMusic.lastMoment, ClassMusic.mediaPlayer.isPlaying.toString())
         val db = writableDatabase
         var cursor: Cursor? = null
         try {
@@ -93,7 +81,7 @@ class DataBaseMusicPlayer(context: Context) : SQLiteOpenHelper(context, DATABASE
                 lastMusic = cursor.getString(cursor.getColumnIndex(DBContract.MusicPlayerSettings.COL_LAST_MUSIK_ID))
                 lastMoment = cursor.getString(cursor.getColumnIndex(DBContract.MusicPlayerSettings.COL_LAST_MOMENT))
                 isPlaying = cursor.getString(cursor.getColumnIndex(DBContract.MusicPlayerSettings.COL_IS_PLAYING))
-                sound = ListenSound(lastMusic.toInt(), lastMoment.toInt(), isPlaying)
+                sound = LastSound(lastMusic.toInt(), lastMoment.toInt(), isPlaying)
                 cursor.moveToNext()
             }
         }

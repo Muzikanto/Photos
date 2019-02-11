@@ -25,10 +25,12 @@ class MusicFragment : Fragment() {
         buttonLoadMusicToBD = view.findViewById(R.id.FragBl1_LoadMusic)
         butDrop = view.findViewById(R.id.ButtonDropMusicDB)
         setOnclickList()
+
         if (view != null) {
             val dbMusicSaves = DataBaseMusicPlayer(context)
             dbMusicSaves.setIsPlaying(ClassMusic.mediaPlayer.isPlaying)
             classMusic = ClassMusic(context, view, false)
+
             val buttonPlayMusic = view.findViewById<Button>(R.id.ButtonPlayMusic)
             val buttonPrevMusic = view.findViewById<Button>(R.id.ButtonPrevMusic)
             val buttonNextMusic = view.findViewById<Button>(R.id.ButtonNextMusic)
@@ -92,7 +94,7 @@ class MusicFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        if(ClassMusic.lastMusic < 0)
+        if (ClassMusic.lastMusic < 0)
             ClassMusic.lastMusic = 0
         classMusic.placeMusic()
         ClassMusic.timerSeekbar?.cancel()

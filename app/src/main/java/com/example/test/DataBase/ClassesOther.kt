@@ -6,4 +6,4 @@ class AlarmClockItem(val id: Int, val time: String, val isEnable: Boolean, val m
 
 class Sound(val id: String?, val name: String, val path: String, val duration: String)
 
-class ListenSound(val lastMusic: Int, val lastMoment: Int, val isPlaying: String)
+class LastSound(val lastMusic: Int, val lastMoment: Int, val isPlaying: String)
