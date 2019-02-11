@@ -1,4 +1,4 @@
-package com.example.test.DataBase
+package com.example.test.Music
 
 import android.content.ContentValues
 import android.content.Context
@@ -6,15 +6,16 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteException
 import android.database.sqlite.SQLiteOpenHelper
-import com.example.test.Music.ClassMusic
+import android.util.Log
+import com.example.test.AppPreferences
+import com.example.test.DataBase.DBContract
+import com.example.test.DataBase.Sound
 import kotlin.collections.ArrayList
 
 
-
-
 class DataBaseMusic(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
-
     override fun onCreate(db: SQLiteDatabase) {
+        AppPreferences.lastMusic = 0
         db.execSQL(SQL_CREATE_ENTRIES)
     }
 
@@ -30,6 +31,7 @@ class DataBaseMusic(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME,
         values.put(DBContract.MusicEntry.COL_NAME, sound.name)
         values.put(DBContract.MusicEntry.COL_PATH, sound.path)
         values.put(DBContract.MusicEntry.COL_DURATION, sound.duration)
+        values.put(DBContract.MusicEntry.COL_DIRECTORY, sound.directory)
 
         db.insert(DBContract.MusicEntry.TABLE_NAME, null, values)
 
@@ -49,19 +51,23 @@ class DataBaseMusic(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME,
             return null
         }
 
-        var soundId: String
-        var name:String
-        var path:String
+        var soundId: Int
+        var name: String
+        var path: String
         var duration: String
+        var directory: String
 
         if (cursor!!.moveToFirst()) {
             while (cursor.isAfterLast == false) {
-                soundId = cursor.getString(cursor.getColumnIndex(DBContract.MusicEntry.COL_ID))
+                soundId = cursor.getInt(cursor.getColumnIndex(DBContract.MusicEntry.COL_ID))
+                if(soundId == -1)
+                    return null
                 name = cursor.getString(cursor.getColumnIndex(DBContract.MusicEntry.COL_NAME))
                 path = cursor.getString(cursor.getColumnIndex(DBContract.MusicEntry.COL_PATH))
                 duration = cursor.getString(cursor.getColumnIndex(DBContract.MusicEntry.COL_DURATION))
+                directory = cursor.getString(cursor.getColumnIndex(DBContract.MusicEntry.COL_DIRECTORY))
 
-                sound = Sound(soundId, name, path, duration)
+                sound = Sound(soundId, name, path, duration, directory)
                 cursor.moveToNext()
             }
         }
@@ -69,8 +75,8 @@ class DataBaseMusic(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME,
         return sound
     }
 
-    fun readAllSound() {
-        ClassMusic.vec = ArrayList()
+    fun readAllSound(): ArrayList<Sound> {
+        val sounds = ArrayList<Sound>()
         val db = writableDatabase
         var cursor: Cursor? = null
         try {
@@ -79,23 +85,26 @@ class DataBaseMusic(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME,
             db.execSQL(SQL_CREATE_ENTRIES)
         }
 
-        var soundId: String
-        var name:String
-        var path:String
+        var soundId: Int
+        var name: String
+        var path: String
         var duration: String
+        var directory: String
 
         if (cursor!!.moveToFirst()) {
             while (cursor.isAfterLast == false) {
-                soundId = cursor.getString(cursor.getColumnIndex(DBContract.MusicEntry.COL_ID))
+                soundId = cursor.getInt(cursor.getColumnIndex(DBContract.MusicEntry.COL_ID))
                 name = cursor.getString(cursor.getColumnIndex(DBContract.MusicEntry.COL_NAME))
                 path = cursor.getString(cursor.getColumnIndex(DBContract.MusicEntry.COL_PATH))
                 duration = cursor.getString(cursor.getColumnIndex(DBContract.MusicEntry.COL_DURATION))
+                directory = cursor.getString(cursor.getColumnIndex(DBContract.MusicEntry.COL_DIRECTORY))
 
-                ClassMusic.vec.add(Sound(soundId, name, path, duration))
+                sounds.add(Sound(soundId, name, path, duration, directory))
                 cursor.moveToNext()
             }
         }
         cursor.close()
+        return sounds
     }
 
 
@@ -123,6 +132,7 @@ class DataBaseMusic(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME,
                         DBContract.MusicEntry.COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                         DBContract.MusicEntry.COL_NAME + " TEXT," +
                         DBContract.MusicEntry.COL_PATH + " TEXT," +
+                        DBContract.MusicEntry.COL_DIRECTORY + " TEXT," +
                         DBContract.MusicEntry.COL_DURATION + " TEXT)"
 
         private val SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS " + DBContract.MusicEntry.TABLE_NAME

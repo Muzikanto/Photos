@@ -1,4 +1,4 @@
-package com.example.test.Adapter
+package com.example.test.Files
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -6,11 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
-import com.example.test.DataBase.Sound
+import com.example.test.DataBase.ListFiles
 import com.example.test.R
-import java.util.*
+import java.util.ArrayList
 
-class AdapterMusic(val context: Context, val data: ArrayList<Sound>) : BaseAdapter() {
+
+
+class AdapterFiles(val context: Context, val data: ArrayList<ListFiles>) : BaseAdapter() {
     var mInflater: LayoutInflater
 
     init {
@@ -18,25 +20,25 @@ class AdapterMusic(val context: Context, val data: ArrayList<Sound>) : BaseAdapt
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        val rawView = mInflater.inflate(R.layout.list_music, parent, false)
-        val textV1 = rawView.findViewById<TextView>(R.id.MusicListView1)
-        val textV2 = rawView.findViewById<TextView>(R.id.MusicListView2)
-        val textV3 = rawView.findViewById<TextView>(R.id.MusicListView3)
-        textV1.setText((position + 1).toString())
-        var name = data[position].name
-        if(name.length >= 35)
-            name = name.substring(0, 35) + ".."
-        textV2.setText(name)
-        textV3.setText(data[position].duration)
+        val rawView = mInflater.inflate(R.layout.list_files, parent, false)
+        val textV1 = rawView.findViewById<TextView>(R.id.FileListType)
+        val textV2 = rawView.findViewById<TextView>(R.id.FileListName)
+        if (data[position].isDirectory)
+            textV1.setText(context.resources.getString(R.string.filesSearchD))
+        else
+            textV1.setText(context.resources.getString(R.string.filesSearchF))
+        textV2.setText(data[position].name)
         return rawView
     }
 
     override fun getItem(position: Int): Any {
         return data[position]
     }
+
     override fun getItemId(position: Int): Long {
         return position.toLong()
     }
+
     override fun getCount(): Int {
         return data.size
     }

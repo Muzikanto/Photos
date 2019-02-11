@@ -9,7 +9,7 @@ import android.os.Environment
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.*
-import com.example.test.Adapter.AdapterFiles
+import com.example.test.Files.AdapterFiles
 import com.example.test.AppPreferences
 import com.example.test.DataBase.ListFiles
 import com.example.test.R

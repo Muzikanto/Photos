@@ -4,9 +4,8 @@ package com.example.test.Service
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
-import android.widget.Toast
 import com.example.test.Alarm.ClassAlarm
-import com.example.test.DataBase.DataBaseAlarms
+import com.example.test.Alarm.DataBaseAlarms
 
 
 class ServiceAlarm : Service() {

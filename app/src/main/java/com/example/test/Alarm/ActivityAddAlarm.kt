@@ -1,7 +1,6 @@
 package com.example.test.Alarm
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
@@ -9,9 +8,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.*
-import com.example.test.Adapter.AdapterAlarm
 import com.example.test.DataBase.AlarmClockItem
-import com.example.test.DataBase.DataBaseAlarms
 import com.example.test.Music.ActivityLoadMusic
 import com.example.test.R
 import com.example.test.Service.ServiceAlarm

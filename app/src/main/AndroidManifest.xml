@@ -31,7 +31,7 @@
         <!-- ===================================================== -->
         <activity android:name=".Music.ActivityLoadMusic"/>
         <!-- ===================================================== -->
-        <receiver android:name=".Widget.WidgetMusic">
+        <receiver android:name=".Music.WidgetMusic">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
                 <action android:name="android.appwidget.action.BUTTON_PLAY"/>

@@ -12,9 +12,7 @@ import android.widget.*
 import com.example.test.R
 import java.io.File
 import android.widget.TextView
-import com.example.test.Adapter.AdapterMusic
 import com.example.test.AppPreferences
-import com.example.test.DataBase.DataBaseMusic
 import com.example.test.DataBase.Sound
 import com.example.test.MainActivity
 import kotlin.collections.ArrayList
@@ -107,7 +105,7 @@ class ClassMusic(val context: Context, val view: View?, val isWidget: Boolean) {
     }
 
     private fun setTextMusic(sound: Sound) {
-        textView?.setText((AppPreferences.lastMusic + 1).toString() + ") " + sound.name + " (" + sound.duration + ")")
+        textView?.setText((AppPreferences.lastMusic).toString() + ") " + sound.name + " (" + sound.duration + ")")
     }
 
 
@@ -120,7 +118,6 @@ class ClassMusic(val context: Context, val view: View?, val isWidget: Boolean) {
             override fun onFinish() {
                 if (ClassMusic.mediaPlayer.currentPosition >= ClassMusic.sizeSound - 1001) {
                     seekBarMusic?.progress = 0
-                    Log.d("muzi", "next")
                     AppPreferences.lastMusic++
                     startSound()
                 }
@@ -155,7 +152,7 @@ class ClassMusic(val context: Context, val view: View?, val isWidget: Boolean) {
 
             listViewMusic?.setOnItemClickListener { _, _, position: Int, _ ->
                 if (MainActivity.fragIndexSecond == 0) {
-                    AppPreferences.lastMusic = position
+                    AppPreferences.lastMusic = position + 1
                     startSound()
                 }
             }
@@ -206,19 +203,23 @@ class ClassMusic(val context: Context, val view: View?, val isWidget: Boolean) {
         }
     }
 
+
     fun loadMusicListView() {
         if (ClassMusic.vec.size > 0) {
-            val adapter = AdapterMusic(context, vec)
+            val adapter = AdapterMusicFolder(context, vec)
             listViewMusic?.adapter = adapter
             if (ClassMusic.vec.size > listViewSelection) {
                 listViewMusic?.setSelection(ClassMusic.listViewSelection)
             }
         } else {
-            val empty = ArrayList<Sound>()
-            val adapter = AdapterMusic(context, empty)
+            val adapter = AdapterMusicFolder(context,  ArrayList())
             listViewMusic?.adapter = adapter
         }
     }
+
+
+
+
 
     fun restoreVecSounds() {
         if (!isWidget) {
@@ -230,35 +231,43 @@ class ClassMusic(val context: Context, val view: View?, val isWidget: Boolean) {
         }
     }
 
-
     fun searchContent(file: File) {
         if (file.isDirectory) {
             if (file.canRead()) {
                 for (temp in file.listFiles()) {
-                    if (temp.isDirectory)
-                        searchContent(temp)
-                    else if (temp.absoluteFile.toString().contains(".mp3")) {
-                        val split = temp.absoluteFile.toString().split('/')
-                        val metaRetriever = MediaMetadataRetriever()
-                        metaRetriever.setDataSource(temp.absoluteFile.toString())
-                        val duration = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION).toInt() / 1000
-                        var strDuration = ""
-                        if (duration / 60.0 > 1) {
-                            strDuration += (duration / 60).toString() + ":"
-                            if ((duration % 60).toString().length > 1)
-                                strDuration += (duration % 60).toString()
-                            else
-                                strDuration += (duration % 60).toString() + "0"
-                        } else
-                            strDuration += duration.toString()
-                        ClassMusic.db.insertSound(Sound(ClassMusic.vec.size.toString(), split[split.size - 1], temp.absoluteFile.toString(), strDuration))
-                        ClassMusic.countSound++
-                        textView?.setText("Load " + ClassMusic.countSound.toString())
-                    }
+                    if (!temp.isDirectory)
+                        getContent(temp, file.name)
                 }
             }
+        } else {
+            getContent(file, "*")
         }
     }
+
+    fun getContent(temp: File, directory: String) {
+        if (temp.absoluteFile.toString().contains(".mp3")) {
+            val split = temp.absoluteFile.toString().split('/')
+            val metaRetriever = MediaMetadataRetriever()
+            metaRetriever.setDataSource(temp.absoluteFile.toString())
+            val duration = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION).toInt() / 1000
+            var strDuration = ""
+            if (duration / 60.0 > 1) {
+                strDuration += (duration / 60).toString() + ":"
+                if ((duration % 60).toString().length > 1)
+                    strDuration += (duration % 60).toString()
+                else
+                    strDuration += (duration % 60).toString() + "0"
+            } else
+                strDuration += duration.toString()
+
+            db.insertSound(Sound(ClassMusic.vec.size, split[split.size - 1], temp.absoluteFile.toString(), strDuration, directory))
+            countSound++
+            textView?.setText("Load " + countSound.toString())
+        }
+    }
+
+
+
 
     companion object {
         var firstCreate = true
@@ -297,7 +306,7 @@ class ClassMusic(val context: Context, val view: View?, val isWidget: Boolean) {
         }
 
         override fun doInBackground(vararg params: Void?): Void? {
-            ClassMusic.db.readAllSound()
+            vec = db.readAllSound()
             return null
         }
     }

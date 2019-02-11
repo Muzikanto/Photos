@@ -1,4 +1,4 @@
-package com.example.test.Widget
+package com.example.test.Music
 
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
@@ -9,7 +9,6 @@ import android.content.Intent
 import android.util.Log
 import android.widget.RemoteViews
 import com.example.test.AppPreferences
-import com.example.test.Music.ClassMusic
 import com.example.test.R
 
 

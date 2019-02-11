@@ -1,15 +1,12 @@
-package com.example.test.Adapter
+package com.example.test.Alarm
 
 import android.content.Context
 import android.content.Intent
-import android.provider.ContactsContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import com.example.test.Alarm.ActivityAddAlarm
 import com.example.test.DataBase.AlarmClockItem
-import com.example.test.DataBase.DataBaseAlarms
 import com.example.test.R
 import java.util.ArrayList
 

@@ -9,9 +9,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import android.provider.Settings;
-import android.widget.Toast
 import com.example.test.DataBase.AlarmClockItem
-import com.example.test.DataBase.DataBaseAlarms
 import com.example.test.R
 import com.example.test.Service.ServiceAlarm
 

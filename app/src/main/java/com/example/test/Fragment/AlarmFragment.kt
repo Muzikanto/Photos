@@ -2,7 +2,6 @@ package com.example.test.Fragment
 
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -11,13 +10,11 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.test.R
 import android.widget.*
-import com.example.test.Adapter.AdapterAlarm
+import com.example.test.Alarm.AdapterAlarm
 import com.example.test.Alarm.ActivityAddAlarm
 import com.example.test.Alarm.ClassAlarm
-import com.example.test.DataBase.AlarmClockItem
-import com.example.test.DataBase.DataBaseAlarms
+import com.example.test.Alarm.DataBaseAlarms
 import java.util.*
-import java.util.concurrent.TimeUnit
 
 
 class AlarmFragment : Fragment() {

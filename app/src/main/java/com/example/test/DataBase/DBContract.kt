@@ -9,6 +9,7 @@ object DBContract {
             val COL_PATH = "path"
             val COL_NAME = "name"
             val COL_DURATION = "duration"
+            val COL_DIRECTORY = "directory"
             val COL_ID = "id"
         }
     }
