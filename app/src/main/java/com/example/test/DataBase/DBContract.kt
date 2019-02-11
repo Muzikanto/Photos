@@ -13,16 +13,6 @@ object DBContract {
         }
     }
 
-    class MusicPlayerSettings : BaseColumns {
-        companion object {
-            val TABLE_NAME = "musicPlayerSettings"
-            val COL_LAST_MUSIK_ID = "lastMusic"
-            val COL_LAST_MOMENT = "lastMoment"
-            val COL_IS_PLAYING = "isPlaying"
-            val COL_ID = "id"
-        }
-    }
-
     class Alarm :BaseColumns{
         companion object {
             val TABLE_NAME = "alarms"

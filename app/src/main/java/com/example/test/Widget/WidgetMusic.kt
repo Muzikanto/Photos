@@ -1,15 +1,16 @@
 package com.example.test.Widget
 
+import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.widget.RemoteViews
-import com.example.test.R
-import android.app.PendingIntent
-import android.content.ComponentName
-import com.example.test.DataBase.DataBaseMusicPlayer
+import com.example.test.AppPreferences
 import com.example.test.Music.ClassMusic
+import com.example.test.R
 
 
 class WidgetMusic : AppWidgetProvider() {
@@ -19,7 +20,6 @@ class WidgetMusic : AppWidgetProvider() {
     private val updateVal = "android.appwidget.action.APPWIDGET_UPDATE_OPTIONS"
 
     var classMusic: ClassMusic? = null
-
 
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
         for (appWidgetId in appWidgetIds) {
@@ -33,66 +33,49 @@ class WidgetMusic : AppWidgetProvider() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
         super.onReceive(context, intent)
+
         if (context != null) {
-            classMusic = ClassMusic(context, null, true)
-            val dbMusicSaves = DataBaseMusicPlayer(context)
             val remoteViews = RemoteViews(context.packageName, R.layout.widget_music)
-            val save = dbMusicSaves.read()
-            if (save.isPlaying == "true") {
-                ClassMusic.lastMusic = save.lastMusic
-                ClassMusic.lastMoment = save.lastMoment
-                if (ClassMusic.vec.size > 0) {
-                    classMusic?.startSound()
-                    ClassMusic.timerSeekbar?.cancel()
-                    classMusic?.startTimerSeekBar(ClassMusic.sizeSound - ClassMusic.lastMoment.toLong())
-                    ClassMusic.mediaPlayer.seekTo(ClassMusic.lastMoment)
-                    ClassMusic.mediaPlayer.start()
-                    dbMusicSaves.setIsPlaying(false)
-                }
-            }
+            classMusic = ClassMusic(context, null, true)
+
             when (intent?.action) {
                 updateVal -> {
+                    Log.d("muzi", "update")
                 }
                 buttonPlay -> {
-                    ClassMusic.lastMusic = save.lastMusic
                     if (ClassMusic.mediaPlayer.isPlaying) {
-                        ClassMusic.lastMoment = ClassMusic.mediaPlayer.currentPosition
+                        AppPreferences.lastMoment = ClassMusic.mediaPlayer.currentPosition
                         ClassMusic.mediaPlayer.pause()
                         ClassMusic.timerSeekbar?.cancel()
                     } else {
-                        if (!ClassMusic.mediaPlayer.isPlaying)
-                            classMusic?.startSound()
-                        classMusic?.startTimerSeekBar(ClassMusic.sizeSound - ClassMusic.lastMoment.toLong())
-                        ClassMusic.mediaPlayer.seekTo(ClassMusic.lastMoment)
+                        classMusic?.startSound()
+                        ClassMusic.mediaPlayer.seekTo(AppPreferences.lastMoment)
                         ClassMusic.mediaPlayer.start()
                     }
+                    setIsPlaying(remoteViews)
                 }
                 buttonPrev -> {
-                    ClassMusic.lastMusic = save.lastMusic
-                    ClassMusic.lastMusic--
-                    dbMusicSaves.setMusicLast(ClassMusic.lastMusic)
-                    if (ClassMusic.lastMusic < 0)
-                        ClassMusic.lastMusic = ClassMusic.vec.size - 1
+                    AppPreferences.lastMusic--
+                    if (AppPreferences.lastMusic < 0)
+                        AppPreferences.lastMusic = ClassMusic.vec.size - 1
                     if (ClassMusic.mediaPlayer.isPlaying)
                         classMusic?.startSound()
                     else {
                         classMusic?.startSound()
-                        ClassMusic.lastMoment = ClassMusic.mediaPlayer.currentPosition
+                        AppPreferences.lastMoment = ClassMusic.mediaPlayer.currentPosition
                         ClassMusic.mediaPlayer.pause()
                         ClassMusic.timerSeekbar?.cancel()
                     }
                 }
                 buttonNext -> {
-                    ClassMusic.lastMusic = save.lastMusic
-                    ClassMusic.lastMusic++
-                    dbMusicSaves.setMusicLast(ClassMusic.lastMusic)
-                    if (ClassMusic.lastMusic > ClassMusic.vec.size - 1)
-                        ClassMusic.lastMusic = 0
+                    AppPreferences.lastMusic++
+                    if (AppPreferences.lastMusic > ClassMusic.vec.size - 1)
+                        AppPreferences.lastMusic = 0
                     if (ClassMusic.mediaPlayer.isPlaying)
                         classMusic?.startSound()
                     else {
                         classMusic?.startSound()
-                        ClassMusic.lastMoment = ClassMusic.mediaPlayer.currentPosition
+                        AppPreferences.lastMoment = ClassMusic.mediaPlayer.currentPosition
                         ClassMusic.mediaPlayer.pause()
                         ClassMusic.timerSeekbar?.cancel()
                     }
@@ -101,30 +84,26 @@ class WidgetMusic : AppWidgetProvider() {
                     return
                 }
             }
-            if (ClassMusic.mediaPlayer.isPlaying)
-                remoteViews.setTextViewText(R.id.musicWidgetPlay, "Pause")
-            else
-                remoteViews.setTextViewText(R.id.musicWidgetPlay, "Play")
-            val str = getNameSound()
-            if (str.isNotEmpty())
-                remoteViews.setTextViewText(R.id.musicWidgetText, str)
+
+            remoteViews.setTextViewText(R.id.musicWidgetText, getNameSound())
+
             val appWidgetManager = AppWidgetManager.getInstance(context)
             appWidgetManager.updateAppWidget(ComponentName(context, javaClass), remoteViews)
         }
     }
 
+    private fun setIsPlaying(remoteViews: RemoteViews) {
+        if (ClassMusic.mediaPlayer.isPlaying)
+            remoteViews.setTextViewText(R.id.musicWidgetPlay, "Pause")
+        else
+            remoteViews.setTextViewText(R.id.musicWidgetPlay, "Play")
+    }
+
     private fun getNameSound(): String {
-        var str = ""
-        if (ClassMusic.vec.size > ClassMusic.lastMusic) {
-            str += (ClassMusic.lastMusic + 1).toString() + ") " + ClassMusic.vec[ClassMusic.lastMusic].name
-            if (str.length > 40) {
-                val sec = str
-                str = ""
-                for (i in 0..40)
-                    str += sec[i]
-                str += "..."
-            }
-        }
+        val str: String
+        if (ClassMusic.vec.size > AppPreferences.lastMusic)
+            str = (AppPreferences.lastMusic + 1).toString() + ") " + ClassMusic.vec[AppPreferences.lastMusic].name
+        else str = "Error"
         return str
     }
 
@@ -133,7 +112,5 @@ class WidgetMusic : AppWidgetProvider() {
         intent.action = action
         return PendingIntent.getBroadcast(context, 0, intent, 0)
     }
-
-
 }
 

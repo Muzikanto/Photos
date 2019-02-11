@@ -37,16 +37,16 @@ class DataBaseMusic(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME,
     }
 
 
-    fun readSound(name: String): ArrayList<Sound> {
-        val sounds = ArrayList<Sound>()
+    fun readSound(id: Int): Sound? {
+        var sound: Sound? = null
         val db = writableDatabase
         var cursor: Cursor? = null
         try {
-            cursor = db.rawQuery("select * from " + DBContract.MusicEntry.TABLE_NAME + " WHERE " + DBContract.MusicEntry.COL_NAME + "='" + name + "'", null)
+            cursor = db.rawQuery("select * from " + DBContract.MusicEntry.TABLE_NAME + " WHERE " + DBContract.MusicEntry.COL_ID + "='" + id + "'", null)
         } catch (e: SQLiteException) {
             // if table not yet present, create it
             db.execSQL(SQL_CREATE_ENTRIES)
-            return ArrayList()
+            return null
         }
 
         var soundId: String
@@ -61,12 +61,12 @@ class DataBaseMusic(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME,
                 path = cursor.getString(cursor.getColumnIndex(DBContract.MusicEntry.COL_PATH))
                 duration = cursor.getString(cursor.getColumnIndex(DBContract.MusicEntry.COL_DURATION))
 
-                sounds.add(Sound(soundId, name, path, duration))
+                sound = Sound(soundId, name, path, duration)
                 cursor.moveToNext()
             }
         }
         cursor.close()
-        return sounds
+        return sound
     }
 
     fun readAllSound() {
@@ -99,10 +99,10 @@ class DataBaseMusic(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME,
     }
 
 
-    fun deleteSound(path: String): Boolean {
+    fun deleteSound(id: Int): Boolean {
         val db = writableDatabase
-        val selection = DBContract.MusicEntry.COL_PATH + " LIKE ?"
-        val selectionArgs = arrayOf(path)
+        val selection = DBContract.MusicEntry.COL_ID + " LIKE ?"
+        val selectionArgs = arrayOf(id.toString())
         db.delete(DBContract.MusicEntry.TABLE_NAME, selection, selectionArgs)
         return true
     }

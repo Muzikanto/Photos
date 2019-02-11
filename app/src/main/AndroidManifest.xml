@@ -55,10 +55,6 @@
             android:name=".Service.ServiceAlarm"
             android:enabled="true"/>
 
-        <service
-                android:name=".Service.ServiceMusic"
-                android:enabled="true"/>
-
         <activity android:name=".Alarm.ActivityAddAlarm">
         </activity>
         <activity android:name=".Alarm.ActivityAlarmStart">

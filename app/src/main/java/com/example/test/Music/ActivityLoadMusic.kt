@@ -10,6 +10,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.widget.*
 import com.example.test.Adapter.AdapterFiles
+import com.example.test.AppPreferences
 import com.example.test.DataBase.ListFiles
 import com.example.test.R
 import java.io.File
@@ -44,7 +45,7 @@ class ActivityLoadMusic : AppCompatActivity() {
             putArrayToLoad()
         }
         listView.setOnItemClickListener { _, view, position: Int, _ ->
-            ClassMusic.lastMusic = position
+            AppPreferences.lastMusic = position
             var itemPut = true
             for (i in 0..arrToLoad.size-1)
                 if (arrToLoad[i] == arrList[position].path) {

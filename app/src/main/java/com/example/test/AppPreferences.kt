@@ -8,7 +8,6 @@ object AppPreferences {
     private val MODE = Context.MODE_PRIVATE
     private lateinit var preferences: SharedPreferences
 
-    // list of app specific preferences
     private val LAST_MUSIC = Pair("last_moment", 0)
     private val LAST_MOMENT = Pair("last_music", 0)
 

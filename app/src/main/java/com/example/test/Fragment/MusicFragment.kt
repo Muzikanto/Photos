@@ -12,7 +12,7 @@ import com.example.test.Music.ClassMusic
 import com.example.test.Music.ActivityLoadMusic
 import com.example.test.R
 import android.widget.Toast
-import com.example.test.DataBase.DataBaseMusicPlayer
+import com.example.test.AppPreferences
 
 
 class MusicFragment : Fragment() {
@@ -27,8 +27,6 @@ class MusicFragment : Fragment() {
         setOnclickList()
 
         if (view != null) {
-            val dbMusicSaves = DataBaseMusicPlayer(context)
-            dbMusicSaves.setIsPlaying(ClassMusic.mediaPlayer.isPlaying)
             classMusic = ClassMusic(context, view, false)
 
             val buttonPlayMusic = view.findViewById<Button>(R.id.ButtonPlayMusic)
@@ -63,7 +61,7 @@ class MusicFragment : Fragment() {
                     .setPositiveButton(resources.getString(R.string.textYes), { _, _ ->
                         classMusic.textView?.setText(resources.getString(R.string.musicFragmentTitle))
                         classMusic.buttonPlayMusic?.setText(resources.getString(R.string.musicButtonPlay))
-                        ClassMusic.lastMusic = 0
+                        AppPreferences.lastMusic = 0
                         ClassMusic.db.dropDataBase()
                         ClassMusic.vec = ArrayList()
                         classMusic.restoreVecSounds()
@@ -94,12 +92,12 @@ class MusicFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        if (ClassMusic.lastMusic < 0)
-            ClassMusic.lastMusic = 0
+        if (AppPreferences.lastMusic < 0)
+            AppPreferences.lastMusic = 0
         classMusic.placeMusic()
         ClassMusic.timerSeekbar?.cancel()
         if (ClassMusic.mediaPlayer.isPlaying)
-            classMusic.startTimerSeekBar(ClassMusic.sizeSound - ClassMusic.lastMoment.toLong())
+            classMusic.startTimerSeekBar(ClassMusic.sizeSound - AppPreferences.lastMoment.toLong())
     }
 }
 

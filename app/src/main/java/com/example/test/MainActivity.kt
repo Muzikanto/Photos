@@ -39,8 +39,6 @@ class MainActivity : AppCompatActivity() {
         fragIndexSecond = 0
         //Permissions
         ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), 100)
-
-        AppPreferences.init(this@MainActivity)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -156,20 +154,6 @@ class MainActivity : AppCompatActivity() {
             notificationManager.notify(id, notification)
         }
 
-    }
-
-    override fun onStop() {
-        super.onStop()
-        val dbMusicSaves = DataBaseMusicPlayer(applicationContext)
-        dbMusicSaves.reset(LastSound(ClassMusic.lastMusic, ClassMusic.lastMoment, ClassMusic.mediaPlayer.isPlaying.toString()))
-    }
-
-    override fun onStart() {
-        super.onStart()
-        val dbMusicSaves = DataBaseMusicPlayer(applicationContext)
-        val last = dbMusicSaves.read()
-        ClassMusic.lastMoment = last.lastMoment
-        ClassMusic.lastMusic = last.lastMusic
     }
 }
 
