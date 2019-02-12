@@ -1,6 +1,7 @@
 package com.example.test.Music
 
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,7 +28,8 @@ class AdapterMusic(val context: Context, val data: ArrayList<Sound>, val classMu
 
         val item = getItem(position)
 
-        textV1.text = (startId + position).toString()
+        val id = startId + position
+        textV1.text = id.toString()
 
         textV2.setOnClickListener { _ ->
             if (MainActivity.fragIndexSecond == 0) {
@@ -35,6 +37,7 @@ class AdapterMusic(val context: Context, val data: ArrayList<Sound>, val classMu
                 classMusic.startSound()
             }
         }
+
 
         textV2.text = item.name
         textV3.text = item.duration

@@ -6,10 +6,11 @@
               android:textAlignment="center" android:orientation="vertical">
 
     <TextView
-            android:text="TextView"
+            android:text="Music"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" android:id="@+id/music_title" android:textAlignment="center"
-            android:textSize="18sp" android:textStyle="bold"/>
+            android:textSize="18sp" android:textStyle="bold" android:textColor="@color/PinkLight"
+    />
     <com.example.test.Items.NoScrollListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"

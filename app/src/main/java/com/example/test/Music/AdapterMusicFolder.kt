@@ -22,19 +22,16 @@ class AdapterMusicFolder(val context: Context, val data: ArrayList<Sound>, val c
     init {
         val map = hashMapOf<String, Int>()
 
+        var count = 1
         for (v in data) {
             val second = map[v.directory]
             if (second == null) {
-                map[v.directory] = arrayListOf(v)
+                map[v.directory] = arr.size
+                arr.add(Folder(count, v.directory, arrayListOf(v)))
             } else {
-                second.add(v)
-                map[v.directory] = second
+                arr[arr.size - 1].arr.add(v)
             }
-        }
-        var count = 1
-        for ((title, values) in map) {
-            arr.add(Folder(count, title, values))
-            count += values.size
+            count ++
         }
     }
 
