@@ -56,7 +56,7 @@ class WidgetMusic : AppWidgetProvider() {
                 buttonPrev -> {
                     AppPreferences.lastMusic--
                     if (AppPreferences.lastMusic < 0)
-                        AppPreferences.lastMusic = ClassMusic.vec.size - 1
+                        AppPreferences.lastMusic = ClassMusic.sounds.size - 1
                     if (ClassMusic.mediaPlayer.isPlaying)
                         classMusic?.startSound()
                     else {
@@ -68,7 +68,7 @@ class WidgetMusic : AppWidgetProvider() {
                 }
                 buttonNext -> {
                     AppPreferences.lastMusic++
-                    if (AppPreferences.lastMusic > ClassMusic.vec.size - 1)
+                    if (AppPreferences.lastMusic > ClassMusic.sounds.size - 1)
                         AppPreferences.lastMusic = 0
                     if (ClassMusic.mediaPlayer.isPlaying)
                         classMusic?.startSound()
@@ -100,8 +100,8 @@ class WidgetMusic : AppWidgetProvider() {
 
     private fun getNameSound(): String {
         val str: String
-        if (ClassMusic.vec.size > AppPreferences.lastMusic)
-            str = (AppPreferences.lastMusic + 1).toString() + ") " + ClassMusic.vec[AppPreferences.lastMusic].name
+        if (ClassMusic.sounds.size > AppPreferences.lastMusic)
+            str = (AppPreferences.lastMusic + 1).toString() + ") " + ClassMusic.sounds[AppPreferences.lastMusic].name
         else str = "Error"
         return str
     }

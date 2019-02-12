@@ -63,7 +63,7 @@ class MusicFragment : Fragment() {
                         classMusic.buttonPlayMusic?.setText(resources.getString(R.string.musicButtonPlay))
                         AppPreferences.lastMusic = 0
                         ClassMusic.db.dropDataBase()
-                        ClassMusic.vec = ArrayList()
+                        ClassMusic.sounds = ArrayList()
                         classMusic.restoreVecSounds()
                         ClassMusic.mediaPlayer.stop()
                         Toast.makeText(context, resources.getString(R.string.musicDialogToastClear), Toast.LENGTH_SHORT).show()

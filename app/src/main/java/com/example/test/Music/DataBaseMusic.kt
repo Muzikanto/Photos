@@ -42,7 +42,7 @@ class DataBaseMusic(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME,
     fun readSound(id: Int): Sound? {
         var sound: Sound? = null
         val db = writableDatabase
-        var cursor: Cursor? = null
+        val cursor: Cursor?
         try {
             cursor = db.rawQuery("select * from " + DBContract.MusicEntry.TABLE_NAME + " WHERE " + DBContract.MusicEntry.COL_ID + "='" + id + "'", null)
         } catch (e: SQLiteException) {

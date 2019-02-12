@@ -6,7 +6,6 @@ import android.media.MediaPlayer
 import android.net.Uri
 import android.os.*
 import android.support.annotation.IntegerRes
-import android.util.Log
 import android.view.View
 import android.widget.*
 import com.example.test.R
@@ -16,6 +15,9 @@ import com.example.test.AppPreferences
 import com.example.test.DataBase.Sound
 import com.example.test.MainActivity
 import kotlin.collections.ArrayList
+import android.widget.AbsListView
+
+
 
 
 class ClassMusic(val context: Context, val view: View?, val isWidget: Boolean) {
@@ -53,7 +55,7 @@ class ClassMusic(val context: Context, val view: View?, val isWidget: Boolean) {
             seekBarMusic?.max = sizeSound
             setTextMusic(sound)
             startTimerSeekBar(mediaPlayer.duration.toLong())
-            buttonPlayMusic?.setText("Pause")
+            buttonPlayMusic?.text = "Pause"
             buttonPlayMusic?.setOnClickListener { _ ->
                 onPauseMusic()
             }
@@ -98,14 +100,14 @@ class ClassMusic(val context: Context, val view: View?, val isWidget: Boolean) {
         AppPreferences.lastMoment = ClassMusic.mediaPlayer.currentPosition
         ClassMusic.mediaPlayer.pause()
         ClassMusic.timerSeekbar?.cancel()
-        buttonPlayMusic?.setText("Play")
+        buttonPlayMusic?.text ="Play"
         buttonPlayMusic?.setOnClickListener { _ ->
             onPlayMusic()
         }
     }
 
     private fun setTextMusic(sound: Sound) {
-        textView?.setText((AppPreferences.lastMusic).toString() + ") " + sound.name + " (" + sound.duration + ")")
+        textView?.text = (AppPreferences.lastMusic).toString() + ") " + sound.name + " (" + sound.duration + ")"
     }
 
 
@@ -128,7 +130,7 @@ class ClassMusic(val context: Context, val view: View?, val isWidget: Boolean) {
 
     fun changeSeekBar() {
         if (!isWidget) {
-            if (ClassMusic.vec.size > 0 && !ClassMusic.firstCreate) {
+            if (sounds.size > 0 && !ClassMusic.firstCreate) {
                 val moment = seekBarMusic?.progress
                 if (moment != null) {
                     AppPreferences.lastMoment = moment
@@ -143,19 +145,12 @@ class ClassMusic(val context: Context, val view: View?, val isWidget: Boolean) {
 
     fun setWidgets(play: Button, prev: Button, next: Button) {
         if (!isWidget) {
-            listViewMusic = view?.findViewById(R.id.ListViewMusic)
             seekBarMusic = view?.findViewById(R.id.SeekBarMusic)
             buttonPlayMusic = play
             buttonPrevMusic = prev
             buttonNextMusic = next
             textView = view?.findViewById(R.id.TextViewMusic)
-
-            listViewMusic?.setOnItemClickListener { _, _, position: Int, _ ->
-                if (MainActivity.fragIndexSecond == 0) {
-                    AppPreferences.lastMusic = position + 1
-                    startSound()
-                }
-            }
+            listViewMusic = view?.findViewById(R.id.ListViewMusic)
             seekBarMusic?.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(seekbar: SeekBar?, progress: Int, fromUser: Boolean) {}
                 override fun onStartTrackingTouch(seekBar: SeekBar?) {}
@@ -175,7 +170,7 @@ class ClassMusic(val context: Context, val view: View?, val isWidget: Boolean) {
                     if (AppPreferences.lastMusic > 0)
                         AppPreferences.lastMusic--
                     else
-                        AppPreferences.lastMusic = ClassMusic.vec.size - 1
+                        AppPreferences.lastMusic = sounds.size - 1
                     if (!ClassMusic.mediaPlayer.isPlaying)
                         placeMusic()
                     else
@@ -186,11 +181,11 @@ class ClassMusic(val context: Context, val view: View?, val isWidget: Boolean) {
             }
             buttonNextMusic?.setOnClickListener { _ ->
                 if (MainActivity.fragIndexSecond == 0) {
-                    if (AppPreferences.lastMusic < ClassMusic.vec.size - 1)
+                    if (AppPreferences.lastMusic < sounds.size - 1)
                         AppPreferences.lastMusic++
                     else
                         AppPreferences.lastMusic = 0
-                    if (!ClassMusic.mediaPlayer.isPlaying)
+                    if (!mediaPlayer.isPlaying)
                         placeMusic()
                     else
                         startSound()
@@ -198,27 +193,19 @@ class ClassMusic(val context: Context, val view: View?, val isWidget: Boolean) {
                     changeSeekBar()
                 }
             }
-            if (ClassMusic.vec.size > listViewSelection)
+            if (sounds.size > listViewSelection)
                 listViewMusic?.smoothScrollToPosition(listViewSelection)
         }
     }
 
 
     fun loadMusicListView() {
-        if (ClassMusic.vec.size > 0) {
-            val adapter = AdapterMusicFolder(context, vec)
-            listViewMusic?.adapter = adapter
-            if (ClassMusic.vec.size > listViewSelection) {
-                listViewMusic?.setSelection(ClassMusic.listViewSelection)
-            }
-        } else {
-            val adapter = AdapterMusicFolder(context,  ArrayList())
-            listViewMusic?.adapter = adapter
+        val adapter = AdapterMusicFolder(context, sounds, this)
+        listViewMusic?.adapter = adapter
+        if (sounds.size > listViewSelection) {
+            listViewMusic?.setSelection(ClassMusic.listViewSelection)
         }
     }
-
-
-
 
 
     fun restoreVecSounds() {
@@ -226,7 +213,7 @@ class ClassMusic(val context: Context, val view: View?, val isWidget: Boolean) {
             AsynkLoadSoundsFromBD().execute()
             loadMusicListView()
             val pos = listViewMusic?.selectedItemPosition
-            if (pos != null && ClassMusic.vec.size > listViewSelection)
+            if (pos != null && sounds.size > listViewSelection)
                 ClassMusic.listViewSelection = pos
         }
     }
@@ -260,13 +247,11 @@ class ClassMusic(val context: Context, val view: View?, val isWidget: Boolean) {
             } else
                 strDuration += duration.toString()
 
-            db.insertSound(Sound(ClassMusic.vec.size, split[split.size - 1], temp.absoluteFile.toString(), strDuration, directory))
+            db.insertSound(Sound(sounds.size, split[split.size - 1], temp.absoluteFile.toString(), strDuration, directory))
             countSound++
-            textView?.setText("Load " + countSound.toString())
+            textView?.text = "Load " + countSound.toString()
         }
     }
-
-
 
 
     companion object {
@@ -280,7 +265,7 @@ class ClassMusic(val context: Context, val view: View?, val isWidget: Boolean) {
         var sizeSound = 0
         var countSound = 0
 
-        var vec = ArrayList<Sound>()
+        var sounds = ArrayList<Sound>()
     }
 
     inner class AsynkLoadSoundsToBD(val arr: ArrayList<String>) : AsyncTask<Void, IntegerRes, Void>() {
@@ -306,7 +291,7 @@ class ClassMusic(val context: Context, val view: View?, val isWidget: Boolean) {
         }
 
         override fun doInBackground(vararg params: Void?): Void? {
-            vec = db.readAllSound()
+            sounds = db.readAllSound()
             return null
         }
     }

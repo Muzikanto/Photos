@@ -53,7 +53,7 @@ class DataBaseAlarms(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     fun readAlarm(id: Int): ArrayList<AlarmClockItem> {
         val alarms = ArrayList<AlarmClockItem>()
         val db = writableDatabase
-        var cursor: Cursor? = null
+        val cursor: Cursor?
         try {
             cursor = db.rawQuery("select * from " + DBContract.Alarm.TABLE_NAME + " WHERE " + DBContract.Alarm.COL_ID + "='" + id + "'", null)
         } catch (e: SQLiteException) {

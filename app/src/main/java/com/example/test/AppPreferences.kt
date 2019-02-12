@@ -8,8 +8,9 @@ object AppPreferences {
     private val MODE = Context.MODE_PRIVATE
     private lateinit var preferences: SharedPreferences
 
-    private val LAST_MUSIC = Pair("last_moment", 0)
-    private val LAST_MOMENT = Pair("last_music", 0)
+    private val LAST_MUSIC = Pair("last_music", 0)
+    private val LAST_MUSIC_ID = Pair("last_music_id", 0)
+    private val LAST_MOMENT = Pair("last_moment", 0)
 
     fun init(context: Context) {
         preferences = context.getSharedPreferences(NAME, MODE)
@@ -31,5 +32,11 @@ object AppPreferences {
         get() = preferences.getInt(LAST_MOMENT.first, LAST_MOMENT.second)
         set(value) = preferences.edit {
             it.putInt(LAST_MOMENT.first, value)
+        }
+
+    var lastMusicIndex: Int
+        get() = preferences.getInt(LAST_MUSIC_ID.first, LAST_MUSIC_ID.second)
+        set(value) = preferences.edit {
+            it.putInt(LAST_MUSIC_ID.first, value)
         }
 }

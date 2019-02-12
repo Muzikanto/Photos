@@ -1,22 +1,27 @@
 package com.example.test.Music
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.ListView
 import android.widget.TextView
+import com.example.test.AppPreferences
 import com.example.test.DataBase.Sound
+import com.example.test.MainActivity
 import com.example.test.R
 import java.util.ArrayList
 
 
-class AdapterMusicFolder(val context: Context, val data: ArrayList<Sound>) : BaseAdapter() {
-    var mInflater: LayoutInflater
-    val map = hashMapOf<String, ArrayList<Sound>>()
+class AdapterMusicFolder(val context: Context, val data: ArrayList<Sound>, val classMusic: ClassMusic) : BaseAdapter() {
+    private var mInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+    private val arr = arrayListOf<Folder>()
 
     init {
-        mInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val map = hashMapOf<String, Int>()
+
         for (v in data) {
             val second = map[v.directory]
             if (second == null) {
@@ -26,24 +31,27 @@ class AdapterMusicFolder(val context: Context, val data: ArrayList<Sound>) : Bas
                 map[v.directory] = second
             }
         }
+        var count = 1
+        for ((title, values) in map) {
+            arr.add(Folder(count, title, values))
+            count += values.size
+        }
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        val rawView = mInflater.inflate(R.layout.list_music, parent, false)
-        val textV1 = rawView.findViewById<TextView>(R.id.MusicListView1)
-        val textV2 = rawView.findViewById<TextView>(R.id.MusicListView2)
-        val textV3 = rawView.findViewById<TextView>(R.id.MusicListView3)
-        textV1.setText((position + 1).toString())
-        var name = data[position].name
-        if (name.length >= 35)
-            name = name.substring(0, 35) + ".."
-        textV2.setText(name)
-        textV3.setText(data[position].duration)
+        val rawView = mInflater.inflate(R.layout.list_music_folder, parent, false)
+        val title = rawView.findViewById<TextView>(R.id.music_title)
+        val content = rawView.findViewById<ListView>(R.id.music_folder)
+
+        val item = getItem(position)
+        title.text = item.title
+        content.adapter = AdapterMusic(context, item.arr, classMusic, item.count)
+
         return rawView
     }
 
-    override fun getItem(position: Int): Any {
-        return data[position]
+    override fun getItem(position: Int): Folder {
+        return arr[position]
     }
 
     override fun getItemId(position: Int): Long {
@@ -51,6 +59,8 @@ class AdapterMusicFolder(val context: Context, val data: ArrayList<Sound>) : Bas
     }
 
     override fun getCount(): Int {
-        return data.size
+        return arr.size
     }
+
+    class Folder(val count: Int, val title: String, val arr: ArrayList<Sound>)
 }

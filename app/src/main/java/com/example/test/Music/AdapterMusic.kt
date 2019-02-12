@@ -6,11 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
+import com.example.test.AppPreferences
 import com.example.test.DataBase.Sound
+import com.example.test.MainActivity
 import com.example.test.R
 import java.util.*
 
-class AdapterMusic1(val context: Context, val data: ArrayList<Sound>) : BaseAdapter() {
+class AdapterMusic(val context: Context, val data: ArrayList<Sound>, val classMusic: ClassMusic, val startId: Int) : BaseAdapter() {
     var mInflater: LayoutInflater
 
     init {
@@ -22,16 +24,25 @@ class AdapterMusic1(val context: Context, val data: ArrayList<Sound>) : BaseAdap
         val textV1 = rawView.findViewById<TextView>(R.id.MusicListView1)
         val textV2 = rawView.findViewById<TextView>(R.id.MusicListView2)
         val textV3 = rawView.findViewById<TextView>(R.id.MusicListView3)
-        textV1.setText((position + 1).toString())
-        var name = data[position].name
-        if(name.length >= 35)
-            name = name.substring(0, 35) + ".."
-        textV2.setText(name)
-        textV3.setText(data[position].duration)
+
+        val item = getItem(position)
+
+        textV1.text = (startId + position).toString()
+
+        textV2.setOnClickListener { _ ->
+            if (MainActivity.fragIndexSecond == 0) {
+                AppPreferences.lastMusic = item.id
+                classMusic.startSound()
+            }
+        }
+
+        textV2.text = item.name
+        textV3.text = item.duration
+
         return rawView
     }
 
-    override fun getItem(position: Int): Any {
+    override fun getItem(position: Int): Sound {
         return data[position]
     }
     override fun getItemId(position: Int): Long {
@@ -40,5 +51,4 @@ class AdapterMusic1(val context: Context, val data: ArrayList<Sound>) : BaseAdap
     override fun getCount(): Int {
         return data.size
     }
-
 }

@@ -80,15 +80,15 @@ class AlarmFragment : Fragment() {
             val dayAlarm = Calendar.getInstance()
             dayAlarm.time = Date(timeMilissMin)
             timeNextAlarm = timeAlarmMin + " "
-            var day = ""
-            if(dayAlarm.get(Calendar.DAY_OF_MONTH) == timeNow.get(Calendar.DAY_OF_MONTH))
+            val day: String
+            if (dayAlarm.get(Calendar.DAY_OF_MONTH) == timeNow.get(Calendar.DAY_OF_MONTH))
                 day = resources.getString(R.string.alarmToday)
-            else if(dayAlarm.get(Calendar.DAY_OF_MONTH) == timeNow.get(Calendar.DAY_OF_MONTH) + 1)
+            else if (dayAlarm.get(Calendar.DAY_OF_MONTH) == timeNow.get(Calendar.DAY_OF_MONTH) + 1)
                 day = resources.getString(R.string.alarmNextDay)
             else
                 day = dayAlarm.get(Calendar.DAY_OF_MONTH).toString() + "th"
             timeNextAlarm += day
         }
-        tvNextAlarm?.setText(timeNextAlarm)
+        tvNextAlarm?.text =timeNextAlarm
     }
 }
