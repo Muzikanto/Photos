@@ -1,68 +1,12 @@
 <resources>
-    <string name="app_name">Music Player</string>
+    <string name="app_name">Test App</string>
 
+    <string name="downMenuFavorite">Избранное</string>
+    <string name="favorite_fragment_title">Избранное</string>
 
-    <string name="textYes">Yes</string>
-    <string name="textNo">No</string>
-    <string name="textAdd">Add</string>
-    <string name="textSet">Set</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="menuDrop_1">Dialog</string>
-    <string name="menuDrop_2">Notifi</string>
-    <string name="menuDrop_3">Menu3</string>
-    <string name="downMenuFragmentsMusic">Music</string>
-    <string name="downMenuFragmentsAlarm">Alarm</string>
-    <string name="downMenuFragmentsSqLire">Image</string>
-    <!--===========================================================-->
-    <string name="musicFragmentTitle">Music</string>
-    <string name="musicDialogDropDB">Are you sure?</string>
-    <string name="musicDialogToastClear">Playlist clear!</string>
-    <string name="musicDialogQustToClear">Playlist will be clear!</string>
-    <string name="musicButtonPlay">Play</string>
-    <string name="musicButtonPrev">Prev</string>
-    <string name="musicButtonNext">Next</string>
-    <string name="musicButtonStop">Stop</string>
-    <!--===========================================================-->
-    <string name="alarmFragmentTitle">AlarmClock</string>
-    <string name="alarmStartTitle">Alarms</string>
-    <string name="alarmToastText">Alarm!!!</string>
-    <string name="alarmStartNextAlarmAfter">Next Alarm after</string>
-    <string name="alarmSetMusicToast">Set Music!</string>
-    <string name="alarmButtonUpdateAlarm">Update</string>
-    <string name="alarmWeekStrMo">Mo</string>
-    <string name="alarmWeekStrTu">Tu</string>
-    <string name="alarmWeekStrWe">We</string>
-    <string name="alarmWeekStrTh">Th</string>
-    <string name="alarmWeekStrFr">Fr</string>
-    <string name="alarmWeekStrSa">Sa</string>
-    <string name="alarmWeekStrSu">Su</string>
-    <string name="alarmDeferButton">Defer</string>
-    <string name="alarmStopButton">Stop</string>
-    <string name="alarmNextAlarm">Next Alarm</string>
-    <string name="alarmToday">Today</string>
-    <string name="alarmNextDay">NextDay</string>
+    <string name="downMenuPhoto">Фото</string>
+    <string name="photo_fragment_title">Фотографии</string>
 
-    <string name="alarmSettDaysOfWeek">Days of week</string>
-    <string name="alarmWeekDay1">M</string>
-    <string name="alarmWeekDay2">T</string>
-    <string name="alarmWeekDay3">W</string>
-    <string name="alarmWeekDay4">T</string>
-    <string name="alarmWeekDay5">F</string>
-    <string name="alarmWeekDay6">S</string>
-    <string name="alarmWeekDay7">S</string>
-    <string name="alarmDeferTimeText">Defer Time</string>
-    <string name="alarmRepeatTime5">5 min</string>
-    <string name="alarmRepeatTime10">10 min</string>
-    <string name="alarmRepeatTime15">15 min</string>
-    <string name="alarmMusicTextViewTop">Sound Alarm</string>
-    <string name="alarmButtonLoadMusic">Music</string>
-    <string name="alarmRepeatEveryWeek">Repeat every week</string>
-    <!--===========================================================-->
-    <string name="filesSearchF">F</string>
-    <string name="filesSearchD">D</string>
-    <string name="filesPathToFolder">Path to Folder</string>
-    <string name="filesButtonLoadAll">Load All</string>
-    <string name="fileButtonLoadOne">Load</string>
-    <!--===========================================================-->
-
+    <string name="downMenuInfo">Инфо</string>
+    <string name="info_fragment_title">Информация</string>
 </resources>
