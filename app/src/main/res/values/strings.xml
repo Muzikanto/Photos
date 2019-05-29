@@ -12,7 +12,7 @@
     <string name="menuDrop_3">Menu3</string>
     <string name="downMenuFragmentsMusic">Music</string>
     <string name="downMenuFragmentsAlarm">Alarm</string>
-    <string name="downMenuFragmentsSqLire">Suck</string>
+    <string name="downMenuFragmentsSqLire">Image</string>
     <!--===========================================================-->
     <string name="musicFragmentTitle">Music</string>
     <string name="musicDialogDropDB">Are you sure?</string>
