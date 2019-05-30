@@ -3,15 +3,14 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              android:theme="@style/Blanks"
-             tools:context="com.example.test.Fragment.PhotoFragment.PhotoFragment" android:id="@+id/fragment_photo">
+             tools:context="com.example.test.Fragment.PhotoFragment" android:id="@+id/fragment_photo">
 
-    <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <android.support.v4.widget.SwipeRefreshLayout android:layout_width="match_parent"
+                                                  android:layout_height="wrap_content"
+                                                  android:id="@+id/swipe_refresh">
 
         <ListView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" android:id="@+id/list_photos"/>
-    </LinearLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
 </FrameLayout>

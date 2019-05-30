@@ -8,12 +8,16 @@ import android.os.Bundle
 import android.widget.Button
 import android.support.v4.app.ActivityCompat
 import android.view.*
+import com.example.test.Database.DBPhotos
 import com.example.test.Fragment.FavoriteFragment
 import com.example.test.Fragment.InfoFragment
+import com.example.test.Fragment.PhotoFragment
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        db = DBPhotos(this)
+
         setContentView(R.layout.activity_main)
 
         val toolBar = findViewById<Toolbar>(R.id.toolBar)
@@ -65,10 +69,13 @@ class MainActivity : AppCompatActivity() {
 
             }
         }
+
         ft.add(R.id.fragPlace, frag).commit()
     }
 
     companion object {
+        lateinit var db: DBPhotos
+
         var currentFragment = 0
     }
 }

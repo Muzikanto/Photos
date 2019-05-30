@@ -37,13 +37,41 @@ class DBPhotos(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
         return true
     }
 
-    fun all(): ArrayList<Photo> {
-        val sounds = ArrayList<Photo>()
+    fun favorite(id: String, favorite: Int): Boolean {
+        val db = writableDatabase
+        try {
+            db.execSQL("update ${DBModel.Photo.TABLE_NAME} set ${DBModel.Photo.COL_FAVORITE}=$favorite where id=\"$id\"")
+        } catch (e: SQLiteException) {
+            return false
+        }
+
+        return true
+    }
+
+    fun find(id: String): Photo {
+        val db = writableDatabase
+
+        val cursor = db.rawQuery("select * from ${DBModel.Photo.TABLE_NAME} where ${DBModel.Photo.COL_ID}=\"$id\"", null)
+        cursor.moveToFirst()
+
+        val width = cursor.getInt(cursor.getColumnIndex(DBModel.Photo.COL_WIDTH))
+        val height = cursor.getInt(cursor.getColumnIndex(DBModel.Photo.COL_HEIGHT))
+        val bytes = cursor.getBlob(cursor.getColumnIndex(DBModel.Photo.COL_BLOB))
+        val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+        val favorite = cursor.getInt(cursor.getColumnIndex(DBModel.Photo.COL_FAVORITE))
+
+        cursor.close()
+
+        return Photo(id, bitmap, width, height, favorite)
+    }
+
+    fun all(need_favorite: Int): ArrayList<Photo> {
+        val photos = ArrayList<Photo>()
         val db = writableDatabase
         var cursor: Cursor? = null
 
         try {
-            cursor = db.rawQuery("select * from " + DBModel.Photo.TABLE_NAME, null)
+            cursor = db.rawQuery("select * from ${DBModel.Photo.TABLE_NAME} where ${DBModel.Photo.COL_FAVORITE}=$need_favorite", null)
         } catch (e: SQLiteException) {
             db.execSQL(SQL_CREATE_ENTRIES)
         }
@@ -52,42 +80,60 @@ class DBPhotos(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
         var height: Int
         var id: String
         var bitmap: Bitmap
+        var favorite: Int
 
         if (cursor!!.moveToFirst()) {
-            while (cursor.isAfterLast == false) {
+            while (!cursor.isAfterLast) {
                 id = cursor.getString(cursor.getColumnIndex(DBModel.Photo.COL_ID))
                 width = cursor.getInt(cursor.getColumnIndex(DBModel.Photo.COL_WIDTH))
                 height = cursor.getInt(cursor.getColumnIndex(DBModel.Photo.COL_HEIGHT))
                 val bytes = cursor.getBlob(cursor.getColumnIndex(DBModel.Photo.COL_BLOB))
                 bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+                favorite = cursor.getInt(cursor.getColumnIndex(DBModel.Photo.COL_FAVORITE))
 
-                sounds.add(Photo(id, bitmap, width, height))
+                photos.add(Photo(id, bitmap, width, height, favorite))
                 cursor.moveToNext()
             }
         }
 
         cursor.close()
 
-        return sounds
+        return photos
     }
 
-    fun drop() {
+    fun dropPhotos(): Boolean {
         val db = writableDatabase
+
+        try {
+            db.execSQL("DELETE FROM " + DBModel.Photo.TABLE_NAME + " WHERE ${DBModel.Photo.COL_FAVORITE}=0")
+        } catch (e: SQLiteException) {
+            return false
+        }
+
+        return true
+    }
+
+    fun dropTable(): Boolean {
+        val db = writableDatabase
+
         db.execSQL(SQL_DELETE_ENTRIES)
-        onCreate(db)
+
+        return true
     }
 
 
     companion object {
-        val DATABASE_VERSION = 1
-        val DATABASE_NAME = "DatebasePhotos.db"
+        const val DATABASE_VERSION = 1
+        const val DATABASE_NAME = "DatabasePhotos.db"
 
         private val SQL_CREATE_ENTRIES =
-                "CREATE TABLE " + DBModel.Photo.TABLE_NAME + " (" +
-                        DBModel.Photo.COL_ID + " String," +
+                "CREATE TABLE IF NOT EXISTS " + DBModel.Photo.TABLE_NAME + " (" +
+                        DBModel.Photo.COL_ID + " String not null unique," +
                         DBModel.Photo.COL_WIDTH + " Int," +
                         DBModel.Photo.COL_HEIGHT + " Int," +
+                        DBModel.Photo.COL_FAVORITE + " Int default 0," +
                         DBModel.Photo.COL_BLOB + " BLOB)"
+
 
         private val SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS " + DBModel.Photo.TABLE_NAME
     }
