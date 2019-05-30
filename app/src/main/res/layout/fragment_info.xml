@@ -4,12 +4,22 @@
              android:theme="@style/Blanks" tools:context="com.example.test.Fragment.InfoFragment"
              android:id="@+id/fragment_info">
 
-    <RelativeLayout
+    <LinearLayout
             android:layout_width="match_parent"
+            android:orientation="vertical"
             android:layout_height="match_parent">
         <TextView
-                android:text="Text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:id="@+id/textView" android:textSize="20sp"/>
-    </RelativeLayout>
+                android:text="Имя: Максим"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/textView" android:textSize="20sp"
+                android:textAlignment="center"/>
+        <TextView
+                android:text="Мобилка: 7978 765 96 87"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/textView4" android:textAlignment="center"
+                android:textSize="20sp"/>
+        <com.google.android.gms.maps.MapView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" android:id="@+id/mapView"/>
+    </LinearLayout>
 </FrameLayout>

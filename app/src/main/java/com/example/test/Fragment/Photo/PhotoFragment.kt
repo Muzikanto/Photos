@@ -57,8 +57,8 @@ class PhotoFragment : Fragment() {
 
     fun loadToListView() {
         val listView = view?.findViewById<ListView>(R.id.list_photos)
-        val arrAlarm = MainActivity.db.all(0)
-        val adapter = AdapterPhotos(context, arrAlarm)
+        val arr = MainActivity.db.all(0)
+        val adapter = AdapterPhotos(context, arr)
         listView?.adapter = adapter
     }
 
