@@ -23,7 +23,7 @@
 
         <fragment
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:id="@+id/fragPlace"
                 android:name="com.example.test.Fragments.PhotoFragment"
                 android:layout_weight="100"/>

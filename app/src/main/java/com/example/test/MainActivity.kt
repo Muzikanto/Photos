@@ -23,9 +23,6 @@ class MainActivity : AppCompatActivity() {
         val toolBar = findViewById<Toolbar>(R.id.toolBar)
         setSupportActionBar(toolBar)
 
-//        supportFragmentManager.beginTransaction().add(R.id.fragPlace, PhotoFragment()).commit()
-//        currentFragment = 1
-//        findViewById<Button>(R.id.downMenu2).setTextColor(Color.BLUE)
         changeFragment(findViewById<Button>(R.id.downMenu2))
 
         ActivityCompat.requestPermissions(this, arrayOf(
