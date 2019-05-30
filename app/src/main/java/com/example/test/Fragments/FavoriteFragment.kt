@@ -1,4 +1,4 @@
-package com.example.test.Fragment
+package com.example.test.Fragments
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -23,13 +23,18 @@ class FavoriteFragment : Fragment() {
         loadToListView()
     }
 
-    fun loadToListView() {
+    private fun loadToListView() {
         val listView = view?.findViewById<ListView>(R.id.list_favorites)
         val arr = MainActivity.db.all(1)
         val adapter = AdapterPhotos(context, arr)
         listView?.adapter = adapter
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        loadToListView()
+    }
 }
 
 

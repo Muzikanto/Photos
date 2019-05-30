@@ -1,4 +1,4 @@
-package com.example.test.Fragment
+package com.example.test.Fragments
 
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
@@ -11,10 +11,9 @@ import android.view.ViewGroup
 import android.widget.ListView
 import android.widget.Toast
 import com.example.test.AdapterPhotos
-import com.example.test.Database.DBPhotos
 import com.example.test.Database.Photo
-import com.example.test.Fragment.Photo.Loader.PhotoApi
-import com.example.test.Fragment.Photo.Loader.RawPhoto
+import com.example.test.Fragments.Photo.Loader.PhotoApi
+import com.example.test.Fragments.Photo.Loader.RawPhoto
 import com.example.test.MainActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers

@@ -1,4 +1,4 @@
-package com.example.test.Fragment.Photo.Loader
+package com.example.test.Fragments.Photo.Loader
 
 
 class RawPhoto(

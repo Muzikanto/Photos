@@ -1,7 +1,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent" android:layout_height="match_parent"
-             android:theme="@style/Blanks" tools:context="com.example.test.Fragment.InfoFragment"
+             android:theme="@style/Blanks" tools:context="com.example.test.Fragments.InfoFragment"
              android:id="@+id/fragment_info">
 
     <LinearLayout
@@ -11,15 +11,16 @@
         <TextView
                 android:text="Имя: Максим"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:id="@+id/textView" android:textSize="20sp"
+                android:layout_height="wrap_content" android:id="@+id/textView" android:textSize="24sp"
                 android:textAlignment="center"/>
         <TextView
                 android:text="Мобилка: 7978 765 96 87"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:id="@+id/textView4" android:textAlignment="center"
                 android:textSize="20sp"/>
-        <com.google.android.gms.maps.MapView
+        <Button
+                android:text="Location"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" android:id="@+id/mapView"/>
+                android:layout_height="wrap_content" android:id="@+id/btn_map"/>
     </LinearLayout>
 </FrameLayout>

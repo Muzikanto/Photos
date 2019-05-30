@@ -9,9 +9,9 @@ import android.widget.Button
 import android.support.v4.app.ActivityCompat
 import android.view.*
 import com.example.test.Database.DBPhotos
-import com.example.test.Fragment.FavoriteFragment
-import com.example.test.Fragment.InfoFragment
-import com.example.test.Fragment.PhotoFragment
+import com.example.test.Fragments.FavoriteFragment
+import com.example.test.Fragments.InfoFragment
+import com.example.test.Fragments.PhotoFragment
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,9 +23,10 @@ class MainActivity : AppCompatActivity() {
         val toolBar = findViewById<Toolbar>(R.id.toolBar)
         setSupportActionBar(toolBar)
 
-        supportFragmentManager.beginTransaction().add(R.id.fragPlace, PhotoFragment()).commit()
-        currentFragment = 1
-        findViewById<Button>(R.id.downMenu2).setTextColor(Color.BLUE)
+//        supportFragmentManager.beginTransaction().add(R.id.fragPlace, PhotoFragment()).commit()
+//        currentFragment = 1
+//        findViewById<Button>(R.id.downMenu2).setTextColor(Color.BLUE)
+        changeFragment(findViewById<Button>(R.id.downMenu2))
 
         ActivityCompat.requestPermissions(this, arrayOf(
                 android.Manifest.permission.INTERNET
@@ -42,27 +43,31 @@ class MainActivity : AppCompatActivity() {
 
         when (view.id) {
             R.id.downMenu1 -> {
-                if (currentFragment == 0)
+                if (currentFragment == 0) {
                     return
+                }
                 frag = FavoriteFragment()
                 ft.setCustomAnimations(R.animator.slide_to_left, R.animator.slide_right)
                 currentFragment = 0
 
             }
             R.id.downMenu2 -> {
-                if (currentFragment == 1)
+                if (currentFragment == 1) {
                     return
+                }
                 frag = PhotoFragment()
-                if (currentFragment == 0)
+                if (currentFragment == 0) {
                     ft.setCustomAnimations(R.animator.slide_to_right, R.animator.slide_right)
-                else
+                } else {
                     ft.setCustomAnimations(R.animator.slide_to_left, R.animator.slide_right)
+                }
                 currentFragment = 1
 
             }
             R.id.downMenu3 -> {
-                if (currentFragment == 2)
+                if (currentFragment == 2) {
                     return
+                }
                 frag = InfoFragment()
                 ft.setCustomAnimations(R.animator.slide_to_right, R.animator.slide_right)
                 currentFragment = 2

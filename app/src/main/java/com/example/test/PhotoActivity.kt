@@ -1,7 +1,5 @@
 package com.example.test
 
-import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.Button
@@ -9,10 +7,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.example.test.Database.Photo
-import com.example.test.Fragment.Photo.Loader.PhotoApi
-import com.example.test.Fragment.Photo.Loader.RawPhoto
-import com.squareup.picasso.Picasso
-import com.squareup.picasso.Target
+import com.example.test.Fragments.Photo.Loader.PhotoApi
+import com.example.test.Fragments.Photo.Loader.RawPhoto
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -29,31 +25,30 @@ class PhotoActivity : AppCompatActivity() {
         setContentView(R.layout.photo)
 
         val imageView = findViewById<ImageView>(R.id.sinlge_image)
-        val textViewWidth = findViewById<TextView>(R.id.single_width)
-        val textViewHeight = findViewById<TextView>(R.id.single_height)
-        val btnFavorite = findViewById<Button>(R.id.single_btn_favorite)
 
         val photoId = intent.getStringExtra("id")
         photo = MainActivity.db.find(photoId)
         imageView.setImageBitmap(photo.bitmap)
 
+        clickAction(findViewById(R.id.single_btn_favorite), photoId, photo.favorite)
+        loadData(photoId)
+    }
 
-        if (photo.favorite == 1) {
-            btnFavorite.setOnClickListener {
-                MainActivity.db.favorite(photoId, 0)
-                btnFavorite.text = "Add Favorite"
-            }
-            btnFavorite.text = "Drop Favorite"
-        } else {
-            btnFavorite.setOnClickListener {
-                MainActivity.db.favorite(photoId, 1)
-                btnFavorite.text = "Drop Favorite"
-            }
-            btnFavorite.text = "Add Favorite"
+
+    private fun clickAction(btnFavorite: Button, id: String, favorite: Int) {
+        btnFavorite.setOnClickListener {
+            MainActivity.db.favorite(id, if (favorite == 1) 0 else 1)
+
+            clickAction(btnFavorite, id, if (favorite == 1) 0 else 1)
         }
+        btnFavorite.text = if (favorite == 1) "Drop Favorite" else "Add Favorite"
+    }
 
+    private fun loadData(id: String) {
+        val textViewWidth = findViewById<TextView>(R.id.single_width)
+        val textViewHeight = findViewById<TextView>(R.id.single_height)
 
-        api.single(photoId)
+        api.single(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
